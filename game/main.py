@@ -25,6 +25,12 @@ class MyGame(ar.Window):
         #our phisics engine
         self.physics_engine = None
 
+        #track the current state of key
+        self.w_p = False
+        self.a_p = False
+        self.s_p = False
+        self.d_p = False
+
         #separete variable that holds the playre sprite
         self.player_sprite = None
 
@@ -109,26 +115,51 @@ class MyGame(ar.Window):
                 18)
 
 
+    def update_player_speed(self):
+
+        #calculate player speed
+        self.player_sprite.change_x = 0
+        self.player_sprite.change_y = 0
+
+        if self.w_p and not self.s_p:
+            self.player_sprite.change_y = player_sp
+        elif self.s_p and not self.w_p:
+            self.player_sprite.change_y = -player_sp
+        if self.a_p and not self.d_p:
+            self.player_sprite.change_x = -player_sp
+        elif self.d_p and not self.a_p:
+            self.player_sprite.change_x = player_sp
+
     def on_key_press(self, key, modifiers):
 
         if key == ar.key.W:
-            self.player_sprite.change_y = player_sp
+            self.w_p = True
+            self.update_player_speed()
         if key == ar.key.S:
-            self.player_sprite.change_y = -player_sp
+            self.s_p = True
+            self.update_player_speed()
         if key == ar.key.A:
-            self.player_sprite.change_x = -player_sp
+            self.a_p = True
+            self.update_player_speed()
         if key == ar.key.D:
-            self.player_sprite.change_x = player_sp
-
+            self.d_p = True
+            self.update_player_speed()
 
 
     def on_key_release(self, key, modifiers):
 
-
-        if key == ar.key.W or key == ar.key.S:
-            self.player_sprite.change_y = 0
-        elif key == ar.key.A or key == ar.key.D:
-            self.player_sprite.change_x = 0
+        if key == ar.key.W:
+            self.w_p = False
+            self.update_player_speed()
+        if key == ar.key.S:
+            self.s_p = False
+            self.update_player_speed()
+        if key == ar.key.A:
+            self.a_p = False
+            self.update_player_speed()
+        if key == ar.key.D:
+            self.d_p = False
+            self.update_player_speed()
 
     def center_camera_to_player(self):
         screen_center_x = self.player_sprite.center_x - (self.camera.viewport_width / 2)
