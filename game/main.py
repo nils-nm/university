@@ -1,4 +1,5 @@
 import arcade as ar
+import arcade.gui
 
 #const
 sc_w = 1000
@@ -13,11 +14,60 @@ ammo_scal = 0.3
 #movment speed per frame
 player_sp = 5
 
-class MyGame(ar.Window):
+
+class MainMenuView(ar.View):
+
+    def on_show_view(self):
+        ar.set_background_color(ar.color.ARSENIC)
+
+        ar.set_viewport(0, self.window.width, 0, self.window.height)
+
+        #creating the gui manager
+        self.uimanager = ar.gui.UIManager()
+        self.uimanager.enable()
+
+        #create start button
+        start_button = ar.gui.UIFlatButton(text='start game', width=200)
+
+        #func for button
+        start_button.on_click = self.on_buttonclick
+
+        #adding button in  the our manager
+        self.uimanager.add(
+                ar.gui.UIAnchorWidget(
+                    anchor_x='center_x',
+                    anchor_y='center_y',
+                    child=start_button)
+                )
+    def on_buttonclick(self, event):
+
+        #check mouse pressed
+        game_view = GameView()
+        game_view.setup()
+        self.window.show_view(game_view)
+
+    def on_draw(self):
+
+        #draw this view
+        self.clear()
+
+        ar.start_render()
+
+        #ar.draw_text('Main menu', self.window.width/2, self.window.height/2,
+        #             ar.color.WHITE,font_size=50, anchor_x='center')
+
+        #ar.draw_text('click for avance', self.window.width/2, self.window.height/2-75,
+        #             ar.color.WHITE, font_size=50, anchor_x='center')
+
+        self.uimanager.draw()
+
+
+
+class GameView(ar.View):
     def __init__(self):
 
         #call the parent class and set up the window
-        super().__init__(sc_w, sc_h, sc_title)
+        super().__init__()
 
         #our scene obj
         self.scene = None
@@ -30,6 +80,7 @@ class MyGame(ar.Window):
         self.a_p = False
         self.s_p = False
         self.d_p = False
+
 
         #separete variable that holds the playre sprite
         self.player_sprite = None
@@ -52,10 +103,10 @@ class MyGame(ar.Window):
         #setup the game
 
         # Set up the Camera
-        self.camera = ar.Camera(self.width, self.height)
+        self.camera = ar.Camera(self.window.width, self.window.height)
 
         #set up gui camera
-        self.gui_camera = ar.Camera(self.width, self.height)
+        self.gui_camera = ar.Camera(self.window.width, self.window.height)
 
         #keep track score
         self.bullets = 10
@@ -201,8 +252,9 @@ class MyGame(ar.Window):
         self.center_camera_to_player()
 
 def main():
-    window = MyGame()
-    window.setup()
+    window = ar.Window(sc_w, sc_h, sc_title)
+    start_view = MainMenuView()
+    window.show_view(start_view)
     ar.run()
 
 
