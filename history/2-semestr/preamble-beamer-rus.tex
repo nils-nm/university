@@ -1,0 +1,25 @@
+\documentclass{beamer}
+
+\usepackage{cmap}
+\usepackage[T1,T2A]{fontenc}        % add eng,rus encoding support
+\usepackage[utf8]{inputenc}         % add UTF8 support
+\usepackage[english,russian]{babel} % add eng,rus(base) package
+
+% Use it for English document
+%\usepackage[utf8]{inputenc} % add UTF8 support
+%\usepackage{fontspec}       % to use any font known to the operating system
+%\setmainfont{PT Serif}      % set defolt font
+
+\usepackage{amsmath, amsfonts, amssymb, amsthm, mathtools} % add math support
+
+\linespread{1}               % length between str
+\setlength{\parindent}{16pt} % red str
+\setlength{\parskip}{6pt}   % length between paragraphs
+
+\usepackage[backend=biber, style=authoryear-icomp]{biblatex}
+\addbibresource{$HOME/latex-templates/biblio.bib}            % path to bibliography base
+
+\usetheme{Madrid}
+\setbeamertemplate{frametitle}[default][center]
+
+\renewcommand{\thefootnote}{\arabic{footnote}}
