@@ -302,3 +302,7 @@ TSWLatexianTemp*
 
 # my settings for directories
 manuals/
+venv/
+ven/
+env/
+__pycache__/
